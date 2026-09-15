@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block haeder %}
     <title>ویرایش محصول {{ product.id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.rtl.min.css') }}" />
 {% endblock %}
 {% block body %}
 
@@ -16,9 +17,10 @@
             <input type="text" name="name" value="{{ product.name }}" placeholder="نام محصول">
             <textarea name="description" placeholder="توضیحات">{{ product.description }}</textarea>
             <input type="number" value="{{ product.price }}" name="price" placeholder="قیمت محصول">
-            <div style="display: flex;justify-content: center">
-                <label> فعال </label><input style="margin: 5px;width: auto;" value="1" type="checkbox"
-                                            name="active" {{ "checked" if product.active == 1 }} >
+            <div class="form-check form-switch d-flex justify-content-center align-items-center gap-1 mb-2">
+                <input class="form-check-input m-0" value="1" id="active" type="checkbox" name="active" role="switch"
+                    {{ "checked" if product.active == 1 }}>
+                <label class="form-check-label" for="active">موجود</label>
             </div>
             <input type="submit" value="ثبت تغییرات">
         </form>

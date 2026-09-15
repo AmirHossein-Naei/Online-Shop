@@ -453,8 +453,18 @@ table.cart td {
     width: 100%;
 }
 
-.simple-box input[type="checkbox"] {
-    display: block;
+.simple-box.big input[type=submit], select {
+    max-width: 410px;
+    width: 100%;
+}
+
+.simple-box.big img, select {
+    border-radius: 5px;
+}
+
+.simple-box.big input[type=checkbox], select {
+    max-width: 40px;
+    width: 100%;
 }
 
 .simple-box input[type='submit'] {
