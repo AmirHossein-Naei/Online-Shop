@@ -1,7 +1,7 @@
 @font-face {
     font-family: Aradfd;
     src: url('../font/AradFD-Medium.ttf');
-    font-style: normal;
+    font-style: small;
     font-display: swap;
 }
 
@@ -383,7 +383,7 @@ a.icon > img {
     max-width: 800px;
     margin: 20px auto auto;
     padding: 10px;
-    overflow: auto;
+    overflow: visible;
 }
 
 .simple-box p {
@@ -480,7 +480,7 @@ table.cart td {
 
 .simple-box table th,
 .simple-box table td {
-    border: 1px solid #999 !important;
+    border: 2px solid transparent !important;
 }
 
 #login-box, #register-box {

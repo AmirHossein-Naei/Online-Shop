@@ -1,33 +1,38 @@
 {% extends 'base.html' %}
 {% block haeder %}
     <title>پنل مدیریت</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.rtl.min.css') }}" />
 {% endblock %}
 {% block body %}
 
     {% include 'part/header.html' %}
 
-    <section class="simple-box cart" style="max-width: 550px">
-        <h1>سفارشات</h1>
-        <table class="cart">
-            <tr>
-                <th>شماره سفارش</th>
-                <th>وضعیت</th>
-                <th>نام کاربر</th>
-                <th>موبایل کاربر</th>
-                <th>مشاهده</th>
-            </tr>
-            {% for cart in carts %}
-                <tr>
-                    <td>{{ cart.id }}</td>
-                    <td>{{ cart.get_status_persian() }}</td>
-                    <td>{{ cart.user.username }}</td>
-                    <td>{{ cart.user.phone }}</td>
-                    <td><a href="{{ url_for('admin.order', id=cart.id ) }}">جزئیات</a></td>
-                </tr>
-
-            {% endfor %}
-        </table>
+    <section class="simple-box">
+        <h1 style="text-align: center; margin-bottom: 20px;">سفارشات</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mx-auto rounded overflow-hidden">
+                <thead class="table-dark">
+                    <tr>
+                        <th>شماره سفارش</th>
+                        <th>وضعیت</th>
+                        <th>نام کاربر</th>
+                        <th>موبایل کاربر</th>
+                        <th>مشاهده</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cart in carts %}
+                    <tr>
+                        <td>{{ cart.id }}</td>
+                        <td>{{ cart.get_status_persian() }}</td>
+                        <td>{{ cart.user.username }}</td>
+                        <td>{{ cart.user.phone }}</td>
+                        <td><a href="{{ url_for('admin.order', id=cart.id ) }}">جزئیات</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </section>
-
 
 {% endblock %}
