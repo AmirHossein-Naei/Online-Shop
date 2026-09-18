@@ -204,7 +204,7 @@ a.icon > img {
     display: block;
     height: 0;
     max-width: 800px;
-    width: 100%;
+    width: 95%;
     margin: auto;
     border-radius: 35px;
     transition: height 400ms ease-out !important;
@@ -377,7 +377,7 @@ a.icon > img {
 }
 
 .simple-box {
-    background: #ffffff;
+    background: #fbfbfb;
     border: 2px solid rgba(0, 0, 0, 0.1);
     border-radius: 25px;
     max-width: 800px;
