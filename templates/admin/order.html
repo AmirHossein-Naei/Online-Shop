@@ -1,90 +1,100 @@
 {% extends 'base.html' %}
 {% block haeder %}
     <title>سفارش شماره {{ cart.id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.rtl.min.css') }}" />
 {% endblock %}
 {% block body %}
 
     {% include 'part/header.html' %}
 
-    <section class="simple-box cart">
-        <h1>سفارش شماره {{ cart.id }}</h1>
+    <section class="simple-box">
+        <h1 style="text-align: center; margin-bottom: 20px;">سفارش شماره {{ cart.id }}</h1>
 
-        <form action="#" method="post">
+        <form action="#" method="post" class="mb-4">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <select name="status">
-                <option value="pending" {% if cart.status == "pending" %} selected {% endif %}>در انتظار پرداخت
-                    (سبدخرید)
-                </option>
-                <option value="paid" {% if cart.status == "paid" %} selected {% endif %}>پرداخت شده</option>
-                <option value="sent" {% if cart.status == "sent" %} selected {% endif %}>ارسال شده</option>
-                <option value="rejected" {% if cart.status == "rejected" %} selected {% endif %}>رد شده</option>
-            </select>
-            <input type="submit" value="تغییر">
+            <div class="input-group">
+                <select name="status" class="form-select">
+                    <option value="pending" {% if cart.status == "pending" %} selected {% endif %}>در انتظار پرداخت (سبدخرید)</option>
+                    <option value="paid" {% if cart.status == "paid" %} selected {% endif %}>پرداخت شده</option>
+                    <option value="sent" {% if cart.status == "sent" %} selected {% endif %}>ارسال شده</option>
+                    <option value="rejected" {% if cart.status == "rejected" %} selected {% endif %}>رد شده</option>
+                </select>
+                <button type="submit" class="btn btn-primary">تغییر</button>
+            </div>
         </form>
 
-        <table class="cart" style="margin-top: 30px">
-            <tr>
-                <th>شماره محصول</th>
-                <th>نام محصول</th>
-                <th>قیمت</th>
-                <th>تعداد</th>
-            </tr>
-            {% for item in cart.cart_items %}
-                <tr>
-                    <td>{{ item.product.id }}</td>
-                    <td>{{ item.product.name }}</td>
-                    <td class="price">{{ item.price }}</td>
-                    <td>{{ item.quantity }}</td>
-                </tr>
-            {% endfor %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mx-auto rounded overflow-hidden">
+                <thead class="table-dark">
+                    <tr>
+                        <th>شماره محصول</th>
+                        <th>نام محصول</th>
+                        <th>قیمت</th>
+                        <th class="text-center">تعداد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart.cart_items %}
+                    <tr>
+                        <td>{{ item.product.id }}</td>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.price }}</td>
+                        <td class="text-center">{{ item.quantity }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold">جمع کل:</td>
+                        <td class="text-center fw-bold">{{ cart.total_price() }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
 
-            <tr>
-                <td colspan="3" style="text-align: left" class="price">{{ cart.total_price() }}</td>
-            </tr>
+        <div class="table-responsive mt-4">
+            <table class="table table-striped table-hover align-middle mx-auto rounded overflow-hidden">
+                <thead class="table-dark">
+                    <tr>
+                        <th>وضعیت</th>
+                        <th>مبلغ</th>
+                        <th>شماره پیگیری</th>
+                        <th>شماره تراکنش</th>
+                        <th>شماره کارت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pay in cart.payments %}
+                    <tr>
+                        <td>{{ pay.get_status_persian() }}</td>
+                        <td>{{ pay.price }}</td>
+                        <td>{{ pay.refid }}</td>
+                        <td>{{ pay.transaction_id }}</td>
+                        <td>{{ pay.card_pan }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-        </table>
-
-        <table class="cart" style="margin-top: 30px">
-            <tr>
-                <th>وضغیت</th>
-                <th>مبلغ</th>
-                <th>شماره پیگیری</th>
-                <th>شماره تراکنش</th>
-                <th>شماره کارت</th>
-            </tr>
-
-            {% for pay in cart.payments %}
-                <tr>
-                    <td>{{ pay.get_status_persian() }}</td>
-                    <td class="price">{{ pay.price }}</td>
-                    <td>{{ pay.refid }}</td>
-                    <td>{{ pay.transaction_id }}</td>
-                    <td>{{ pay.card_pan }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-
-
-        <table class="cart" style="margin-top: 30px">
-            <tr>
-                <th>نام سفارش دهنده</th>
-                <th>موبایل</th>
-                <th>آدرس</th>
-            </tr>
-
-            <tr>
-                <td>{{ cart.user.username }}</td>
-                <td>{{ cart.user.phone }}</td>
-                <td>{{ cart.user.address }}</td>
-            </tr>
-
-        </table>
-
-
+        <div class="table-responsive mt-4">
+            <table class="table table-striped table-hover align-middle mx-auto rounded overflow-hidden">
+                <thead class="table-dark">
+                    <tr>
+                        <th>نام سفارش دهنده</th>
+                        <th>موبایل</th>
+                        <th>آدرس</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ cart.user.username }}</td>
+                        <td>{{ cart.user.phone }}</td>
+                        <td>{{ cart.user.address }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
-
-
-
-
 
 {% endblock %}
