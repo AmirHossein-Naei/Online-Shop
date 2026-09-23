@@ -1,51 +1,59 @@
 {% extends 'base.html' %}
 {% block haeder %}
-    <title>صفحه محصولات</title>
+<title>صفحه محصولات</title>
+<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.rtl.min.css') }}" />
 {% endblock %}
 {% block body %}
 
 
-    {% include 'part/header.html' %}
+{% include 'part/header.html' %}
 
-    <section class="simple-box">
-<h1>محصولات</h1>
-        <table>
-            <tr>
-                <th>تصویر</th>
-                <th>اسم</th>
-                <th>توضیحات</th>
-                <th>قیمت</th>
-                <th>فعال</th>
-                <th>ویرایش</th>
-            </tr>
+<section class="simple-box">
+    <h1 style="text-align: center;  margin-bottom: 20px;">محصول جدید</h1>
+    <form action="#" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <input type="file" name="cover">
+        <input type="text" name="name" placeholder="نام محصول">
+        <textarea name="description" placeholder="توضیحات"></textarea>
+        <input type="number" name="price" class="text-start" placeholder="قیمت محصول">
+        <div class="form-check form-switch d-flex justify-content-center align-items-center gap-1 mb-2">
+            <input class="form-check-input m-0" value="1" id="active" type="checkbox" name="active" role="switch">
+            <label class="form-check-label" for="active">موجود</label>
+        </div>
+        <input type="submit" value="افزودن">
+    </form>
+</section>
 
-            {% for p in products %}
+<section class="simple-box">
+    <h1 style="text-align: center; margin-bottom: 20px;">محصولات</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle mx-auto rounded overflow-hidden">
+            <thead class="table-dark">
+                <tr>
+                    <th>تصویر</th>
+                    <th>اسم</th>
+                    <th>توضیحات</th>
+                    <th>قیمت</th>
+                    <th>موجود</th>
+                    <th>ویرایش</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in products %}
                 <tr>
                     <td><img style="width: 70px" src="/static/cover/{{ p.id }}.jpg"></td>
                     <td>{{ p.name }}</td>
                     <td>{{ p.description|truncate(150) }}</td>
                     <td>{{ p.price }}</td>
-                    <td><img style="width: 20px;"
-                             src="{{ url_for('static', filename='theme-image/done.png') if p.active == 1 else url_for('static', filename='theme-image/delete.png') }}">
+                    <td><img style="width: 32px !important;"
+                            src="{{ url_for('static', filename='theme-image/done.png') if p.active == 1 else url_for('static', filename='theme-image/delete.png') }}">
                     </td>
                     <td><a href="/admin/dashboard/edit-product/{{ p.id }}">ویرایش</a></td>
                 </tr>
-            {% endfor %}
+                {% endfor %}
+            </tbody>
         </table>
-    </section>
-    <section class="simple-box">
-        <h1>محصول جدید</h1>
-        <form action="#" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input type="file" name="cover">
-            <input type="text" name="name" placeholder="نام محصول">
-            <textarea name="description" placeholder="توضیحات"></textarea>
-            <input type="number" name="price" placeholder="قیمت محصول">
-            <div style="display:flex;justify-content: center">
-                <label for="active"> فعال </label>
-                <input style="margin: 5px;" value="1" id="active" type="checkbox" name="active">
-            </div>
-            <input type="submit" value="افزودن">
-        </form>
-    </section>
+    </div>
+</section>
+
 {% endblock %}

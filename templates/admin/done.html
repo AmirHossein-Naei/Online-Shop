@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block haeder %}
+    <title>Done</title>
+    <meta http-equiv="refresh" content="4; url={{ url_for('admin.products') }}">
+{% endblock %}
+{% block body %}
+
+    <div class="simple-box cart" style="margin: auto; padding: 20px; margin-top: 70px;">
+        <h1 style="text-align: center;">محصول با موفقیت اضافه شد</h1> <br> <br>
+        <span style="text-align: center; margin: auto;">در حال انتقال به صفحه محصولات ...</span>
+    </div>
+
+{% endblock %}

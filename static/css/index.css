@@ -1,82 +1,18 @@
 @font-face {
-    font-family: Vazirmatn;
-    src: url('../font/Vazirmatn-Thin.woff2') format('woff2');
-    font-weight: 100;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: Vazirmatn;
-    src: url('../font/Vazirmatn-ExtraLight.woff2') format('woff2');
-    font-weight: 200;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: Vazirmatn;
-    src: url('../font/Vazirmatn-Light.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: Vazirmatn;
-    src: url('../font/Vazirmatn-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: Vazirmatn;
-    src: url('../font/Vazirmatn-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: Vazirmatn;
-    src: url('../font/Vazirmatn-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: Vazirmatn;
-    src: url('../font/Vazirmatn-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: Vazirmatn;
-    src: url('../font/Vazirmatn-ExtraBold.woff2') format('woff2');
-    font-weight: 800;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: Vazirmatn;
-    src: url('../font/Vazirmatn-Black.woff2') format('woff2');
-    font-weight: 900;
-    font-style: normal;
+    font-family: Aradfd;
+    src: url('../font/AradFD-Medium.ttf');
+    font-style: small;
     font-display: swap;
 }
 
 :root {
-    --font-color: #5f5f5f;
+    --font-color: #232323;
     --color-accent: rgb(0 134 229)
 }
 
 * {
-    transition: all 200ms ease-in !important;
+    font-family: Aradfd;
+    transition: all 300ms ease-in !important;
 }
 
 body {
@@ -85,7 +21,6 @@ body {
     font-size: 16px;
     background: #fafafa;
     color: var(--font-color);
-    font-family: Vazirmatn;
 }
 
 header {
@@ -119,7 +54,7 @@ header div {
 
 header div input {
     font-size: 16px;
-    font-family: Vazirmatn;
+    font-family: Aradfd;
     font-weight: 300;
     border-radius: 5px;
     border: 2px solid rgba(0, 0, 0, 0.3);
@@ -169,8 +104,9 @@ td.price {
 }
 
 .product-box section > img {
-    width: 100%;
-    padding: 10px;
+    width: 100% !important;
+    padding: 10px;  
+    border-radius: 10px !important;
     box-sizing: border-box;
     border-top-right-radius: inherit;
     border-top-left-radius: inherit;
@@ -268,7 +204,7 @@ a.icon > img {
     display: block;
     height: 0;
     max-width: 800px;
-    width: 100%;
+    width: 95%;
     margin: auto;
     border-radius: 35px;
     transition: height 400ms ease-out !important;
@@ -338,6 +274,7 @@ a.icon > img {
 }
 
 .product-detail-box .product-image {
+    border-radius: 10px;
     max-width: 280px;
     margin-left: 10px;
     width: 100%;
@@ -374,7 +311,7 @@ a.icon > img {
 .cart .pay-btn {
     text-decoration: none;
     font-size: 18px;
-    float: left;
+    float: center;
     font-weight: 600;
     border-radius: 15px;
     border: 2px solid var(--color-accent);
@@ -436,16 +373,17 @@ a.icon > img {
     margin: 10px;
     font-size: 20px;
     display: none;
+    cursor: pointer;
 }
 
 .simple-box {
-    background: #ffffff;
+    background: #fbfbfb;
     border: 2px solid rgba(0, 0, 0, 0.1);
     border-radius: 25px;
     max-width: 800px;
     margin: 20px auto auto;
     padding: 10px;
-    overflow: auto;
+    overflow: visible;
 }
 
 .simple-box p {
@@ -471,9 +409,14 @@ a.icon > img {
     background: rgba(0, 126, 210, 0.2);
 }
 
-
 table tr:nth-child(even) {
     background: rgba(0, 0, 0, 0.03);
+}
+
+table img {
+    border-radius: 10px;
+    width: 42px !important;
+    height: auto;
 }
 
 table tr:last-child td {
@@ -496,13 +439,13 @@ table.cart td {
 .simple-box input, .simple-box textarea, .simple-box select {
     color: var(--font-color);
     font-size: 16px;
-    max-width: 180px;
-    font-family: Vazirmatn;
+    max-width: 190px;
+    font-family: Aradfd;
     display: block;
     border-radius: 10px;
     margin: 5px auto;
     border: 1px solid rgba(0, 0, 0, 0.3);
-    padding: 2px 10px;
+    padding: 5px 10px;
 }
 
 .simple-box.big input, .simple-box.big textarea, .simple-box.big select {
@@ -510,27 +453,62 @@ table.cart td {
     width: 100%;
 }
 
+.simple-box.big input[type=submit], select {
+    max-width: 410px;
+    width: 100%;
+}
+
+.simple-box.big img, select {
+    border-radius: 5px;
+}
+
+.simple-box.big input[type=checkbox], select {
+    max-width: 40px;
+    width: 100%;
+}
+
+.simple-box .input-group select {
+    max-width: none;
+    margin: 0;
+    display: block;
+    border-radius: 0;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.simple-box .input-group .btn {
+    max-width: none;
+    margin: 0;
+    border-radius: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
 .simple-box input[type='submit'] {
     all: unset;
     border-radius: 10px;
     width: 100%;
-    max-width: 191px;
+    max-width: 200px;
     cursor: pointer;
     margin: auto;
     display: block;
     text-align: center;
-    background: transparent;
+    background: var(--color-accent);
+    color: #ffffff;
     border: 2px solid var(--color-accent);
-    padding: 3px 4px;
-    color: var(--color-accent);
+    padding: 5px 5px;
     font-weight: 900;
 }
 
 .simple-box input[type='submit']:hover {
-    background: var(--color-accent);
-    color: #ffffff;
+    background: transparent;
+    color: var(--color-accent);
 }
 
+.simple-box table th,
+.simple-box table td {
+    border: 2px solid transparent !important;
+}
 
 #login-box, #register-box {
     text-align: center;

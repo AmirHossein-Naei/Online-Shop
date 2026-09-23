@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, request, session, redirect, abort, url_for,flash
+from flask import Blueprint, current_app, render_template, request, session, redirect, abort, url_for, flash
 import config
 from models.cart import Cart
 from models.product import Product
 from extentions import db
+import os
+from PIL import Image, ImageOps
 
 app = Blueprint("admin", __name__)
 
@@ -24,7 +26,6 @@ def login():
             return redirect("/admin/dashboard")
         else:
             return redirect("/admin/login")
-
     else:
         return render_template("admin/login.html")
 
@@ -48,6 +49,24 @@ def order(id):
         flash("وضعیت سفارش با موفقیت تغییر کرد")
         return redirect(url_for('admin.order', id=id))
 
+def pasi(file, product_id, size=500):
+
+    cover_dir = os.path.join(current_app.root_path, 'static', 'cover')
+    os.makedirs(cover_dir, exist_ok=True)
+    
+    image_path = os.path.join(cover_dir, f'{product_id}.jpg')
+    
+    img = Image.open(file.stream)
+    
+    if img.mode == 'RGBA':
+        img = img.convert('RGB')
+    
+    img_square = ImageOps.fit(img, (size, size), Image.Resampling.LANCZOS)
+    
+    img_square.save(image_path, 'JPEG', quality=95, optimize=True)
+    
+    return True
+
 
 @app.route('/admin/dashboard/products', methods=["GET", "POST"])
 def products():
@@ -61,19 +80,33 @@ def products():
         active = request.form.get('active', None)
         file = request.files.get('cover', None)
 
+     
+        if not name or not price:
+            flash("نام و قیمت الزامی هستند!", "error")
+            return redirect(url_for('admin.products'))
+
         p = Product(name=name, description=description, price=price)
-        if active == None:
-            p.active = 0
-        else:
-            p.active = 1
+        p.active = 1 if active else 0
 
-        db.session.add(p)
-        db.session.commit()
+        try:
+            db.session.add(p)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            flash("محصولی با این نام قبلاً ثبت شده است!", "error")
+            return redirect(url_for('admin.products'))
 
-        file.save(f'static/cover/{p.id}.jpg')
+        if file and file.filename:
+            success = pasi(file, p.id)
+            if not success:
+                flash("خطا در پردازش تصویر! لطفاً دوباره تلاش کنید.", "error")
 
-        flash("محصول جدید اضافه شد")
-        return "done"
+                db.session.delete(p)
+                db.session.commit()
+                return redirect(url_for('admin.products'))
+
+        flash("محصول جدید با موفقیت اضافه شد!", "success")
+        return render_template("admin/done.html")
 
 
 @app.route('/admin/dashboard/edit-product/<id>', methods=["GET", "POST"])
@@ -89,18 +122,31 @@ def edit_product(id):
         active = request.form.get('active', None)
         file = request.files.get('cover', None)
 
+
+        if not name or not price:
+            flash("نام و قیمت الزامی هستند!", "error")
+            return redirect(url_for('admin.edit_product', id=id))
+
         product.name = name
         product.description = description
         product.price = price
-        if active == None:
-            product.active = 0
-        else:
-            product.active = 1
+        product.active = 1 if active else 0
 
         db.session.commit()
 
-        if file.filename != "":
-            file.save(f'static/cover/{product.id}.jpg')
+        if file and file.filename:
 
-        flash("تغییرات با موفقیت ثبت شد")
+            oip = os.path.join(current_app.root_path, 'static', 'cover', f'{product.id}.jpg')
+            if os.path.exists(oip):
+                try:
+                    os.remove(oip)
+                except:
+                    pass 
+            
+            success = pasi(file, product.id)
+            if not success:
+                flash("خطا در پردازش تصویر! لطفاً دوباره تلاش کنید.")
+                return redirect(url_for('admin.edit_product', id=id))
+
+        flash("تغییرات با موفقیت ثبت شد!")
         return redirect(url_for("admin.edit_product", id=id))

@@ -42,14 +42,14 @@ def login():
         else:
             user = User.query.filter(User.username == username).first()
             if user == None:
-                flash('نام کابربر یا رمز اشتباه است')
+                flash('نام کاربری یا رمز اشتباه است')
                 return redirect(url_for('user.login'))
 
             if sha256_crypt.verify(password, user.password):
                 login_user(user)
                 return redirect(url_for('user.dashboard'))
             else:
-                flash('نام کابربر یا رمز اشتباه است')
+                flash('نام کاربری یا رمز اشتباه است')
                 return redirect(url_for('user.login'))
 
 

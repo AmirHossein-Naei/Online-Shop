@@ -1,51 +1,54 @@
 {% extends 'base.html' %}
 {% block haeder %}
     <title>سبدخرید</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.rtl.min.css') }}" />
 {% endblock %}
 {% block body %}
 
     {% include 'part/header.html' %}
 
-
-    <section class="simple-box cart">
-        <h1>سبدخرید</h1>
+    <section class="simple-box">
+        <h1 style="text-align: center; margin-bottom: 20px;">سبدخرید</h1>
         {% if cart != None and cart.cart_items|list|length > 0 %}
-            <table class="cart">
-                <tr>
-                    <th>محصول</th>
-                    <th>قیمت</th>
-                    <th>تعداد</th>
-                </tr>
-                {% for cart_item in cart.cart_items %}
-                    <tr>
-                        <td>{{ cart_item.product.name }}</td>
-                        <td class="price">{{ cart_item.price }}</td>
-                        <td>
-                            <div style="display: flex;justify-content: center;align-items: center;">
-                            <a class="cartitem-btn"
-                               href="/remove-from-cart?id={{ cart_item.id }}">-</a>{{ cart_item.quantity }}<a
-                                class="cartitem-btn"
-                                href="/add-to-cart?id={{ cart_item.product.id }}">+</a>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mx-auto rounded overflow-hidden">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>محصول</th>
+                            <th>قیمت</th>
+                            <th class="text-center">تعداد</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cart_item in cart.cart_items %}
+                        <tr>
+                            <td>{{ cart_item.product.name }}</td>
+                            <td>{{ cart_item.price }}</td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <a class="cartitem-btn" href="/remove-from-cart?id={{ cart_item.id }}">-</a>
+                                    <span class="mx-2">{{ cart_item.quantity }}</span>
+                                    <a class="cartitem-btn" href="/add-to-cart?id={{ cart_item.product.id }}">+</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-                <tr>
-                    <td colspan="3" style="text-align: left;">قیمت کل : <span class="price">{{ cart.total_price() }}</span></td>
-                </tr>
-            </table>
-
-
-            <a class="pay-btn icon" href="/payment"> پرداخت آنلاین <img
-                    src="{{ url_for('static',filename="theme-image/wallet.png") }}"></a>
-
-
+            <div class="d-flex justify-content-between align-items-center mt-4 px-3 py-3 border-top">
+                <div class="fw-bold fs-5">
+                    قیمت کل: <span class="text-primary">{{ cart.total_price() }} تومان</span>
+                </div>
+                <a class="btn btn-primary btn-lg px-4" href="/payment">
+                    <img src="{{ url_for('static',filename='theme-image/wallet.png') }}" style="width: 22px; margin-left: 6px; vertical-align: middle; filter: brightness(0);">
+                    پرداخت آنلاین
+                </a>
+            </div>
         {% else %}
-            <i style="display: block;text-align: center;">سبد خرید خالی است</i>
+            <p class="text-center text-muted my-4">سبد خرید خالی است</p>
         {% endif %}
-
     </section>
-
 
 {% endblock %}
