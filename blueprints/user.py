@@ -104,6 +104,7 @@ def cart():
 @app.route('/payment', methods=['GET'])
 @login_required
 def payment():
+    #if admin delete the product on cart
     cart = current_user.carts.filter(Cart.status == 'pending').first()
 
     r = requests.post(config.PAYMENT_FIRST_REQUEST_URL,
