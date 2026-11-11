@@ -3,11 +3,13 @@ import config
 from models.cart import Cart
 from models.product import Product
 from extentions import db
+from flask_login import login_required
 
 app = Blueprint("admin", __name__)
 
 
 @app.before_request
+@login_required
 def before_request():
     if session.get('admin_login', None) == None and request.endpoint != "admin.login":
         abort(403)
