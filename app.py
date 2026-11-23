@@ -7,7 +7,8 @@ import config
 import extentions
 from flask_login import LoginManager
 from models.user import User
-
+#this is just for test
+print("heloo")
 app = Flask(__name__)
 app.register_blueprint(general)
 app.register_blueprint(user)
